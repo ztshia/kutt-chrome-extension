@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Kutt.it 设置</title>
+    <link rel="stylesheet" href="options.css" />
+  </head>
+  <body>
+    <main>
+      <h1>Kutt.it 设置</h1>
+      <p>请提供您的Kutt实例基础URL和用于验证请求的API密钥。</p>
+      <form id="settings-form">
+        <label for="base-url">Kutt基础URL</label>
+        <input
+          type="text"
+          id="base-url"
+          name="base-url"
+          required
+          placeholder="https://kutt.it"
+          inputmode="url"
+        />
+        <p class="hint">包含完整的源地址（和可选路径），例如 <code>https://kutt.it</code>。</p>
+        <label for="api-key">API 密钥</label>
+        <input type="password" id="api-key" name="api-key" required placeholder="粘贴您的API-KEY" />
+        <p class="hint">
+          您可以在
+          <a href="https://kutt.it/settings" target="_blank" rel="noopener noreferrer">kutt.it/settings</a> 找到您的密钥。
+        </p>
+        <fieldset class="preferences">
+          <legend>快捷操作</legend>
+          <label class="checkbox">
+            <input type="checkbox" id="auto-copy" name="auto-copy" />
+            <span>自动将新创建的短链接复制到剪贴板</span>
+          </label>
+          <label class="checkbox">
+            <input type="checkbox" id="auto-open-stats" name="auto-open-stats" />
+            <span>创建短链接后自动打开链接分析页面</span>
+          </label>
+        </fieldset>
+        <div class="actions">
+          <button type="submit">保存</button>
+          <button type="button" id="clear-settings" class="secondary">清除</button>
+        </div>
+      </form>
+      <p id="status" role="status" aria-live="polite"></p>
+    </main>
+    <script src="options.js" type="module"></script>
+  </body>
+</html>

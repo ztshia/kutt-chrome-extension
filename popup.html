@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Kutt链接管理器</title>
+    <link rel="stylesheet" href="popup.css" />
+  </head>
+  <body>
+    <header>
+      <h1>Kutt</h1>
+      <button id="open-options" title="设置" aria-label="打开设置">
+        ⚙️
+      </button>
+    </header>
+
+    <section id="status" role="status" aria-live="polite"></section>
+
+    <section id="auth-info" class="card hidden">
+      <h2>需要 API 密钥</h2>
+      <p>
+        请在设置页面添加您的 <code>X-API-KEY</code> 以开始使用本扩展。
+      </p>
+      <button id="go-to-options">打开设置</button>
+    </section>
+
+    <!-- 仅保留缩短当前页+自定义slug的表单 -->
+    <section id="shorten-tab" class="card hidden">
+      <h2>缩短当前标签页</h2>
+      <div class="shorten-form">
+        <label>
+          自定义后缀
+          <input type="text" name="customslug" id="customslug" placeholder="例如: mylink123" />
+        </label>
+        <button id="shorten-current-tab" type="button" class="primary">
+          缩短当前标签页
+        </button>
+      </div>
+    </section>
+
+    <section id="links" class="card hidden">
+      <div class="links-header">
+        <h2>最近的链接</h2>
+        <button id="refresh-links" title="刷新" aria-label="刷新链接">⟳</button>
+      </div>
+      <ul id="links-list"></ul>
+      <p id="no-links" class="muted hidden">暂无链接，快去创建一个吧！</p>
+    </section>
+
+    <template id="link-item-template">
+      <li class="link-item">
+        <div class="link-main">
+          <a class="short-link" target="_blank" rel="noopener noreferrer"></a>
+          <p class="long-link"></p>
+        </div>
+        <div class="link-meta">
+          <span class="created"></span>
+          <div class="link-actions">
+            <button class="copy-button">复制</button>
+            <button class="stats-button">统计</button>
+            <button class="delete-button" title="删除链接">删除</button>
+          </div>
+        </div>
+      </li>
+    </template>
+
+    <script src="popup.js" type="module"></script>
+  </body>
+</html>
