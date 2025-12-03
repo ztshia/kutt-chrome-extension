@@ -24,6 +24,29 @@ let autoCopy = true;
 let autoOpenStats = false;
 
 /**
+ * 清理URL中的查询参数（?后内容）和锚点（#后内容）
+ * @param {string} rawUrl 原始URL
+ * @returns {string} 清理后的纯路径URL
+ */
+function cleanUrlParams(rawUrl) {
+  if (!rawUrl || typeof rawUrl !== 'string') return rawUrl;
+  
+  try {
+    // 解析URL，自动分离各部分
+    const urlObj = new URL(rawUrl);
+    // 清空查询参数和哈希
+    urlObj.search = '';
+    urlObj.hash = '';
+    // 返回清理后的URL
+    return urlObj.toString();
+  } catch (error) {
+    // 若URL解析失败（如非标准格式），返回原始URL
+    console.warn('URL解析失败，保留原始URL:', error);
+    return rawUrl;
+  }
+}
+
+/**
  * 初始化事件监听
  */
 function initEventListeners() {
@@ -38,7 +61,7 @@ function initEventListeners() {
     });
   });
 
-  // 缩短当前标签页按钮（核心功能）
+  // 缩短当前标签页按钮（核心功能，新增URL清理逻辑）
   shortenCurrentTabButton?.addEventListener('click', async () => {
     if (!apiKey) {
       showAuthRequired();
@@ -59,14 +82,21 @@ function initEventListeners() {
       return;
     }
 
+    // 核心修改：清理URL中的查询参数和锚点
+    const cleanUrl = cleanUrlParams(activeTab.url);
+    // 提示用户URL已清理（可选，增强交互）
+    if (cleanUrl !== activeTab.url) {
+      setStatus(`已自动清理URL参数：${cleanUrl}`, 'success');
+    }
+
     // 获取自定义slug
     const customslug = customslugInput.value.trim();
     
     try {
       await createShortLink(
         { 
-          target: activeTab.url,
-          customurl: customslug // 自定义后缀参数
+          target: cleanUrl, // 使用清理后的URL
+          customurl: customslug 
         },
         { triggerButton: shortenCurrentTabButton }
       );
